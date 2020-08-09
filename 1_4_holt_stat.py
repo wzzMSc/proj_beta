@@ -4,9 +4,10 @@ import pandas as pd
 import os
 import seaborn as sns
 from statsmodels.tsa.api import ExponentialSmoothing, SimpleExpSmoothing, Holt
+import statsmodels.api as sm
 from sklearn.metrics import mean_squared_error
 
-dir = "vis/stat/04single_exp/"
+dir = "vis/stat/05holt/"
 
 df = pd.read_csv('data/final.csv',header=0,parse_dates=['ISODate'],index_col='ISODate')
 
@@ -24,14 +25,20 @@ for x in prediction_targets:
 s = int(len(df_resampled)*0.8)
 train,test = df_resampled[:s],df_resampled[s:]
 
+for y in prediction_targets:
+    sm.tsa.seasonal_decompose(train[y].values,period=8*30).plot(resid=False)
+    plt.savefig(dir+y+'/'+y+'_seasonal_decompose.png',dpi=130)
+    plt.cla()
+    plt.close()
+
 # %%
 for y in prediction_targets:
-    ses = SimpleExpSmoothing(train[y].values).fit()
-    test['SES'] = ses.forecast(len(test))
+    holt = Holt(train[y].values).fit()
+    test['holt'] = holt.forecast(len(test))
     plt.figure(figsize=(150,10))
     plt.plot(train.i,train[y],label='Train',color='r')
     plt.plot(test.i,test[y],label='Test',color='g')
-    plt.plot(test.i,test['SES'],label='Predict',color='b')
+    plt.plot(test.i,test['holt'],label='Predict',color='b')
     plt.xlabel('Sequencial entries')
     plt.ylabel(y)
     plt.legend()
@@ -39,6 +46,6 @@ for y in prediction_targets:
     plt.cla()
     plt.close()
 
-    print(y,'MSE:',mean_squared_error(test[y],test['SES']))
+    print(y,'MSE:',mean_squared_error(test[y],test['holt']))
 
 # %%
