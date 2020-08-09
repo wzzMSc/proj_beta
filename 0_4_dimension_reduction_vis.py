@@ -28,7 +28,7 @@ for x in prediction_targets:
     df_resampled[x][df_resampled[x]>=thres] = 1
 
 # %%
-raw_features = "MTEMP,MUONKICKER,HTEMP,TS1_TOTAL_YEST,TS1_TOTAL,REPR,BEAMT2,REPR2,TS2_TOTAL,TS2_TOTAL_YEST".split(',')
+raw_features = "MTEMP,MUONKICKER,HTEMP,TS1_TOTAL_YEST,TS1_TOTAL,REPR,REPR2,TS2_TOTAL,TS2_TOTAL_YEST".split(',')
 
 # %%
 pca = PCA(n_components=3)
