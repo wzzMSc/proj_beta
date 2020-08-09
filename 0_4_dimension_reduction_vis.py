@@ -69,7 +69,7 @@ for x in prediction_targets:
     if not os.path.exists("vis/dr_tsne/"+x+'/'):
         os.makedirs("vis/dr_tsne/"+x+'/')
 
-tsne = TSNE(n_components=3,verbose=1)
+tsne = TSNE(n_components=3,verbose=1,n_iter=1000)
 tsne_results = tsne.fit_transform(df_resampled[raw_features].values)
 
 for i in range(1,tsne_results.shape[1]+1):
