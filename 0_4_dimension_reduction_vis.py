@@ -57,7 +57,7 @@ for target in prediction_targets:
     ax.set_xlabel('PCA1')
     ax.set_ylabel('PCA2')
     ax.set_zlabel('PCA3')
-    plt.savefig("vis/dr_pca/"+target+'/'+x+"-"+y+"_3d.png",dpi=130)
+    plt.savefig("vis/dr_pca/"+target+'/'+target+"_3d.png",dpi=130)
     plt.cla()
     plt.close()
 
@@ -90,7 +90,7 @@ for target in prediction_targets:
     ax.set_xlabel('tSNE1')
     ax.set_ylabel('tSNE2')
     ax.set_zlabel('tSNE3')
-    plt.savefig("vis/dr_tsne/"+target+'/'+x+"-"+y+"_3d.png",dpi=130)
+    plt.savefig("vis/dr_tsne/"+target+'/'+target+"_3d.png",dpi=130)
     plt.cla()
     plt.close()
 
