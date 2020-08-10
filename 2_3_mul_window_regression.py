@@ -5,7 +5,6 @@ import numpy as np
 from numpy import array
 import pandas as pd
 import tensorflow as tf
-# from tensorflow import keras
 import keras
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -39,7 +38,7 @@ resample_method = '3H'
 df_resampled = df.resample(resample_method).mean()
 df_resampled = df_resampled.dropna(axis=0)
 
-dir = "vis/machine/03sig_win_reg/"
+dir = "vis/machine/04mul_win_reg/"
 
 for x in prediction_targets:
     if not os.path.exists(dir+x+'/'):
@@ -47,7 +46,7 @@ for x in prediction_targets:
 
 # %%
 n_steps_in = 12
-n_steps_out = 1
+n_steps_out = 12
 n_features = 1
 
 for target in prediction_targets:
@@ -84,12 +83,23 @@ for target in prediction_targets:
 
     y_pred = model.predict(X_test)
 
-    plt.figure(figsize=(100,10))
-    plt.plot(range(0,len(y_test)),y_test[:,0],label='test')
-    plt.plot(range(0,len(y_test)),y_pred[:,0],label='predict')
-    plt.legend()
-    plt.savefig(dir+target+'/'+target+'.png',dpi=130)
-    plt.cla()
-    plt.close()
-    
-    print(target,'MSE:',mean_squared_error(y_test,y_pred))
+    for i in range(n_steps_out):
+        plt.figure(figsize=(100,10))
+        plt.plot(range(0,len(y_test)),y_test[:,0],label='test')
+        plt.plot(range(0,len(y_test)),y_pred[:,i],label='predict')
+        plt.legend()
+        plt.savefig(dir+target+'/'+target+'_'+str(i)+'_step.png',dpi=130)
+        plt.cla()
+        plt.close()
+        print(target,'step:',i,'MSE:',mean_squared_error(y_test[:,0],y_pred[:,i]))
+
+    for i in range(len(y_test)):
+        if i%200==0:
+            plt.figure(figsize=(100,10))
+            plt.plot(range(0,len(y_test[i])),y_test[i],label='test')
+            plt.plot(range(0,len(y_test[i])),y_pred[i],label='predict')
+            plt.legend()
+            plt.savefig(dir+target+'/'+target+'_'+str(i)+'_point.png',dpi=130)
+            plt.cla()
+            plt.close()
+            print(target,'step:',i,'MSE:',mean_squared_error(y_test[i],y_pred[i]))
