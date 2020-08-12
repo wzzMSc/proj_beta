@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 import seaborn as sns
-
+import numpy as np
+np.random.seed(1)
 
 from sklearn.ensemble import AdaBoostClassifier,ExtraTreesClassifier,GradientBoostingClassifier,RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.neural_network import MLPClassifier
+from sklearn.svm import SVC
 
 from sklearn.metrics import mean_squared_error
 
@@ -47,7 +49,7 @@ raw_features = "MTEMP,MUONKICKER,HTEMP,TS1_TOTAL_YEST,TS1_TOTAL,REPR,REPR2,TS2_T
 
 # %%
 models = [AdaBoostClassifier(),ExtraTreesClassifier(),GradientBoostingClassifier(),RandomForestClassifier(),\
-    KNeighborsClassifier(),MLPClassifier()]
+    KNeighborsClassifier(),MLPClassifier(),SVC()]
 
 for model in models:
     for y in prediction_targets:
